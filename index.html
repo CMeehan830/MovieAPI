@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ITD 212 Development Assignment 2</title>
+	</head>
+	<body>
+		<label>Enter a movie title: </label>
+		<input type="text" id="filmChoice" name="movie" size="20" value=""/>
+		<button id="submit">Submit</button>
+		<br/><br/>
+		<label>Or choose one of these: </label>
+		<select id="filmchoice">
+			<option value="Star Wars">Star Wars</option>
+			<option value="The Empire Strikes Back">The Empire Strikes Back</option>
+			<option value="Return of the Jedi">Return of the Jedi</option>
+		</select>
+		<button id="submit2">Submit</button>
+		<br/><br/>
+		<div id="movieTitle"></div><br/>
+		<div id="movieDirector"></div><br/>
+		<div id="moviePlot"></div><br/>
+		<div id="movieActors"></div><br/>
+		<div id="moviePoster"></div><img src="" id="moviePicture"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script>
+			var plot;
+			var director;
+			var title;
+			var actors;
+			var picture;
+			var film;
+			var filmChoice;
+			document.getElementById("submit").addEventListener('click', movieInfo);
+			document.getElementById("submit2").addEventListener('click', movieChoiceInfo);
+			function movieInfo(){
+				film = document.getElementById("filmChoice").value
+				console.log(film);
+				if (film != "" && film != " " && film != null) {
+					fetch('http://www.omdbapi.com/?apikey=9d96910a&t=' + film + '&y=&plot=full&r=json')
+					.then(function(response) {return response.json();})
+					.then(function(json) {
+						title = json.Title;
+						document.getElementById('movieTitle').innerHTML = "Title: " + title;
+						director = json.Director;
+						document.getElementById('movieDirector').innerHTML = "Director: " + director;
+						plot = json.Plot;
+						document.getElementById('moviePlot').innerHTML = "Plot: " + plot;
+						actors = json.Actors;
+						document.getElementById('movieActors').innerHTML = "Actors/Actresses: " + actors;
+						picture = json.Poster;
+						document.getElementById("moviePoster").innerHTML = "Poster: ";
+						document.getElementById('moviePicture').src = picture;
+					});		
+				} else {
+					window.alert("Please enter a movie");
+				}
+			}
+			function movieChoiceInfo() {
+				film = document.getElementById("filmchoice").value
+				console.log(film);
+				fetch('http://www.omdbapi.com/?apikey=9d96910a&t=' + film + '&y=&plot=full&r=json')
+				.then(function(response) {return response.json();})
+				.then(function(json) {
+					title = json.Title;
+					document.getElementById('movieTitle').innerHTML = "Title: " + title;
+					director = json.Director;
+					document.getElementById('movieDirector').innerHTML = "Director: " + director;
+					plot = json.Plot;
+					document.getElementById('moviePlot').innerHTML = "Plot: " + plot;
+					actors = json.Actors;
+					document.getElementById('movieActors').innerHTML = "Actors/Actresses: " + actors;
+					picture = json.Poster;
+					document.getElementById("moviePoster").innerHTML = "Poster: ";
+					document.getElementById('moviePicture').src = picture;
+				});		
+			}
+		</script>
+	</body>
+</html>
